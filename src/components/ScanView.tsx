@@ -243,9 +243,7 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
               className="h-12 text-base"
               onClick={() => {
                 onSave(attachImage && image ? { ...current, image } : current);
-                setDraft(null);
-                setImage(null);
-                setUncertain([]);
+                reset();
                 toast.success("Saved to your in-app calendar.");
               }}
             >
