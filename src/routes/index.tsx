@@ -1,23 +1,95 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { CalendarDays, ScanLine } from "lucide-react";
+import { ScanView } from "@/components/ScanView";
+import { CalendarBoard } from "@/components/CalendarBoard";
+import { EventDialog } from "@/components/EventDialog";
+import { cn } from "@/lib/utils";
+import { loadEvents, saveEvents, type CalEvent } from "@/lib/events";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "FlyerScan — Scan Paper Flyers into Calendar Events" },
+      {
+        name: "description",
+        content:
+          "Photograph any paper flyer and let AI vision pull out the title, date, time and venue — then save it to your calendar or Google Calendar in one tap.",
+      },
+      { property: "og:title", content: "FlyerScan — Scan Paper Flyers into Calendar Events" },
+      {
+        property: "og:description",
+        content:
+          "Snap a poster, review the AI-extracted details, and sync the event to Google Calendar or download an .ics file.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [tab, setTab] = useState<"scan" | "calendar">("scan");
+  const [events, setEvents] = useState<CalEvent[]>([]);
+  const [selected, setSelected] = useState<CalEvent | null>(null);
+
+  useEffect(() => {
+    setEvents(loadEvents());
+  }, []);
+
+  const persist = (next: CalEvent[]) => {
+    setEvents(next);
+    saveEvents(next);
+  };
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
+    <div className="mx-auto flex h-[100dvh] max-w-md flex-col bg-background">
+      <main className="flex-1 overflow-y-auto px-4 pb-28 pt-6">
+        {tab === "scan" ? (
+          <ScanView
+            onSave={(e) => {
+              persist([...events, e]);
+              setTab("calendar");
+            }}
+          />
+        ) : (
+          <div className="space-y-4">
+            <h1 className="font-display text-3xl">My Calendar</h1>
+            <CalendarBoard events={events} onSelect={setSelected} />
+          </div>
+        )}
+      </main>
+
+      <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-md -translate-x-1/2 border-t border-border bg-card/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur">
+        <div className="grid grid-cols-2 gap-2">
+          {(
+            [
+              { id: "scan", label: "Scan Flyer", Icon: ScanLine },
+              { id: "calendar", label: "My Calendar", Icon: CalendarDays },
+            ] as const
+          ).map(({ id, label, Icon }) => (
+            <button
+              key={id}
+              onClick={() => setTab(id)}
+              className={cn(
+                "flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 text-sm font-medium transition-colors",
+                tab === id
+                  ? "ink-gradient text-primary-foreground"
+                  : "bg-muted text-muted-foreground",
+              )}
+            >
+              <Icon className="size-5" />
+              {label}
+            </button>
+          ))}
+        </div>
+      </nav>
+
+      <EventDialog
+        event={selected}
+        onClose={() => setSelected(null)}
+        onDelete={(id) => persist(events.filter((e) => e.id !== id))}
       />
     </div>
   );
