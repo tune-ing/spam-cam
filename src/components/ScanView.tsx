@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { downloadIcs, googleCalendarUrl, toLocalInput, type CalEvent } from "@/lib/events";
 
@@ -37,14 +38,31 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
   const [draft, setDraft] = useState<Draft | null>(null);
   const [uncertain, setUncertain] = useState<string[]>([]);
   const [dragging, setDragging] = useState(false);
+  const [attachImage, setAttachImage] = useState(true);
 
   const readFile = (file: File | undefined) => {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
-      setImage(reader.result as string);
-      setDraft(null);
-      setUncertain([]);
+      const dataUrl = reader.result as string;
+      // Downscale so the attached photo stays small enough for localStorage.
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 900;
+        const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+        if (scale >= 1) {
+          setImage(dataUrl);
+        } else {
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          canvas.getContext("2d")?.drawImage(img, 0, 0, canvas.width, canvas.height);
+          setImage(canvas.toDataURL("image/jpeg", 0.82));
+        }
+        setDraft(null);
+        setUncertain([]);
+      };
+      img.src = dataUrl;
     };
     reader.readAsDataURL(file);
   };
@@ -205,11 +223,23 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
           {field("location", "Location / venue", <MapPin className="size-3.5" />)}
           {field("description", "Description / notes")}
 
+          <label
+            htmlFor="attach-flyer"
+            className="flex cursor-pointer items-center gap-3 rounded-xl border border-border bg-muted/50 p-3 text-sm"
+          >
+            <Checkbox
+              id="attach-flyer"
+              checked={attachImage}
+              onCheckedChange={(v) => setAttachImage(v === true)}
+            />
+            Save original flyer photo with event
+          </label>
+
           <div className="grid gap-2 pt-1">
             <Button
               className="h-12 text-base"
               onClick={() => {
-                onSave(current);
+                onSave(attachImage && image ? { ...current, image } : current);
                 setDraft(null);
                 setImage(null);
                 setUncertain([]);
