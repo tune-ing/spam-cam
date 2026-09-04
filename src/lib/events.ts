@@ -1,3 +1,7 @@
+import flyerMarket from "@/assets/flyer-market.jpg";
+import flyerVinyl from "@/assets/flyer-vinyl.jpg";
+import flyerGarden from "@/assets/flyer-garden.jpg";
+
 export type CalEvent = {
   id: string;
   title: string;
@@ -5,6 +9,7 @@ export type CalEvent = {
   endDate: string;
   location: string;
   description: string;
+  image?: string; // flyer photo: asset path or data URL
 };
 
 const STORAGE_KEY = "flyerscan.events.v1";
@@ -78,6 +83,7 @@ function sampleEvents(): CalEvent[] {
       endDate: at(2, 22),
       location: "Dock 4, Riverside Quay",
       description: "Street food stalls, live brass band, free entry before 7pm.",
+      image: flyerMarket,
     },
     {
       id: "sample-2",
@@ -86,6 +92,7 @@ function sampleEvents(): CalEvent[] {
       endDate: at(6, 16),
       location: "Old Print Works, 22 Cable St",
       description: "40+ sellers. $5 at the door, cash only.",
+      image: flyerVinyl,
     },
     {
       id: "sample-3",
@@ -94,6 +101,7 @@ function sampleEvents(): CalEvent[] {
       endDate: at(11, 12, 30),
       location: "Hillcrest Community Garden",
       description: "Bring gloves. Coffee and pastries provided.",
+      image: flyerGarden,
     },
   ];
 }
