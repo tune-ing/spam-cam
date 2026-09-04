@@ -43,25 +43,30 @@ function Index() {
     saveEvents(next);
   };
 
+  const scanPane = (
+    <ScanView
+      onSave={(e) => {
+        persist([...events, e]);
+        setTab("calendar");
+      }}
+    />
+  );
+  const calendarPane = (
+    <div className="space-y-4">
+      <h1 className="font-display text-3xl">My Calendar</h1>
+      <CalendarBoard events={events} onSelect={setSelected} />
+    </div>
+  );
+
   return (
-    <div className="mx-auto flex h-[100dvh] max-w-md flex-col bg-background">
-      <main className="flex-1 overflow-y-auto px-4 pb-28 pt-6">
-        {tab === "scan" ? (
-          <ScanView
-            onSave={(e) => {
-              persist([...events, e]);
-              setTab("calendar");
-            }}
-          />
-        ) : (
-          <div className="space-y-4">
-            <h1 className="font-display text-3xl">My Calendar</h1>
-            <CalendarBoard events={events} onSelect={setSelected} />
-          </div>
-        )}
+    <div className="mx-auto flex h-[100dvh] max-w-md flex-col bg-background md:max-w-6xl">
+      {/* Mobile: tabbed single column. Desktop (md+): form left, calendar right. */}
+      <main className="flex-1 overflow-y-auto px-4 pb-28 pt-6 md:grid md:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] md:items-start md:gap-8 md:px-8 md:pb-6">
+        <div className={cn(tab !== "scan" && "hidden", "md:block")}>{scanPane}</div>
+        <div className={cn(tab !== "calendar" && "hidden", "md:block")}>{calendarPane}</div>
       </main>
 
-      <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-md -translate-x-1/2 border-t border-border bg-card/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur">
+      <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-md -translate-x-1/2 border-t border-border bg-card/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur md:hidden">
         <div className="grid grid-cols-2 gap-2">
           {(
             [
