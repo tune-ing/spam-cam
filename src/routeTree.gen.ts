@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiParseFlyerRouteImport } from './routes/api/parse-flyer'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiParseFlyerRoute = ApiParseFlyerRouteImport.update({
+  id: '/api/parse-flyer',
+  path: '/api/parse-flyer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/parse-flyer': typeof ApiParseFlyerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/parse-flyer': typeof ApiParseFlyerRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/parse-flyer': typeof ApiParseFlyerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/parse-flyer'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/parse-flyer'
+  id: '__root__' | '/' | '/api/parse-flyer'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiParseFlyerRoute: typeof ApiParseFlyerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/parse-flyer': {
+      id: '/api/parse-flyer'
+      path: '/api/parse-flyer'
+      fullPath: '/api/parse-flyer'
+      preLoaderRoute: typeof ApiParseFlyerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiParseFlyerRoute: ApiParseFlyerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
