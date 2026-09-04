@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { downloadIcs, googleCalendarUrl, toLocalInput, type CalEvent } from "@/lib/events";
 
@@ -37,14 +38,31 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
   const [draft, setDraft] = useState<Draft | null>(null);
   const [uncertain, setUncertain] = useState<string[]>([]);
   const [dragging, setDragging] = useState(false);
+  const [attachImage, setAttachImage] = useState(true);
 
   const readFile = (file: File | undefined) => {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
-      setImage(reader.result as string);
-      setDraft(null);
-      setUncertain([]);
+      const dataUrl = reader.result as string;
+      // Downscale so the attached photo stays small enough for localStorage.
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 900;
+        const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+        if (scale >= 1) {
+          setImage(dataUrl);
+        } else {
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          canvas.getContext("2d")?.drawImage(img, 0, 0, canvas.width, canvas.height);
+          setImage(canvas.toDataURL("image/jpeg", 0.82));
+        }
+        setDraft(null);
+        setUncertain([]);
+      };
+      img.src = dataUrl;
     };
     reader.readAsDataURL(file);
   };
@@ -81,6 +99,13 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
   };
 
   const current: CalEvent | null = draft ? { id: crypto.randomUUID(), ...draft } : null;
+
+  const reset = () => {
+    setDraft(null);
+    setImage(null);
+    setUncertain([]);
+    setAttachImage(true);
+  };
 
   const field = (key: keyof Draft, label: string, icon?: React.ReactNode) => (
     <div className="space-y-1.5">
@@ -145,11 +170,7 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
         <div className="surface-paper relative overflow-hidden rounded-2xl border border-border p-3">
           <img src={image} alt="Flyer preview" className="h-56 w-full rounded-xl object-cover" />
           <button
-            onClick={() => {
-              setImage(null);
-              setDraft(null);
-              setUncertain([]);
-            }}
+            onClick={reset}
             aria-label="Remove photo"
             className="absolute right-5 top-5 flex size-11 items-center justify-center rounded-full bg-foreground/70 text-background backdrop-blur"
           >
@@ -205,14 +226,24 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
           {field("location", "Location / venue", <MapPin className="size-3.5" />)}
           {field("description", "Description / notes")}
 
+          <label
+            htmlFor="attach-flyer"
+            className="flex cursor-pointer items-center gap-3 rounded-xl border border-border bg-muted/50 p-3 text-sm"
+          >
+            <Switch
+              id="attach-flyer"
+              checked={attachImage}
+              onCheckedChange={setAttachImage}
+            />
+            Save original flyer photo with event
+          </label>
+
           <div className="grid gap-2 pt-1">
             <Button
               className="h-12 text-base"
               onClick={() => {
-                onSave(current);
-                setDraft(null);
-                setImage(null);
-                setUncertain([]);
+                onSave(attachImage && image ? { ...current, image } : current);
+                reset();
                 toast.success("Saved to your in-app calendar.");
               }}
             >
