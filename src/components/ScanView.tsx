@@ -100,6 +100,13 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
 
   const current: CalEvent | null = draft ? { id: crypto.randomUUID(), ...draft } : null;
 
+  const reset = () => {
+    setDraft(null);
+    setImage(null);
+    setUncertain([]);
+    setAttachImage(true);
+  };
+
   const field = (key: keyof Draft, label: string, icon?: React.ReactNode) => (
     <div className="space-y-1.5">
       <Label htmlFor={key} className="flex items-center gap-2 text-xs uppercase tracking-widest">
@@ -163,11 +170,7 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
         <div className="surface-paper relative overflow-hidden rounded-2xl border border-border p-3">
           <img src={image} alt="Flyer preview" className="h-56 w-full rounded-xl object-cover" />
           <button
-            onClick={() => {
-              setImage(null);
-              setDraft(null);
-              setUncertain([]);
-            }}
+            onClick={reset}
             aria-label="Remove photo"
             className="absolute right-5 top-5 flex size-11 items-center justify-center rounded-full bg-foreground/70 text-background backdrop-blur"
           >
