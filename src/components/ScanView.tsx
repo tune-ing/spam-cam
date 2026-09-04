@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { downloadIcs, googleCalendarUrl, toLocalInput, type CalEvent } from "@/lib/events";
 
@@ -230,10 +230,10 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
             htmlFor="attach-flyer"
             className="flex cursor-pointer items-center gap-3 rounded-xl border border-border bg-muted/50 p-3 text-sm"
           >
-            <Checkbox
+            <Switch
               id="attach-flyer"
               checked={attachImage}
-              onCheckedChange={(v) => setAttachImage(v === true)}
+              onCheckedChange={setAttachImage}
             />
             Save original flyer photo with event
           </label>
