@@ -4,8 +4,10 @@ import { CalendarDays, ScanLine } from "lucide-react";
 import { ScanView } from "@/components/ScanView";
 import { CalendarBoard } from "@/components/CalendarBoard";
 import { EventDialog } from "@/components/EventDialog";
+import { LiveFeedCard } from "@/components/LiveFeedCard";
 import { cn } from "@/lib/utils";
 import { loadEvents, saveEvents, type CalEvent } from "@/lib/events";
+import { syncFeedToCloud } from "@/lib/feed";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,12 +37,19 @@ function Index() {
   const [selected, setSelected] = useState<CalEvent | null>(null);
 
   useEffect(() => {
-    setEvents(loadEvents());
+    const loaded = loadEvents();
+    setEvents(loaded);
+    syncFeedToCloud(loaded).catch((err) =>
+      console.error("Failed to sync live calendar feed:", err),
+    );
   }, []);
 
   const persist = (next: CalEvent[]) => {
     setEvents(next);
     saveEvents(next);
+    syncFeedToCloud(next).catch((err) =>
+      console.error("Failed to sync live calendar feed:", err),
+    );
   };
 
   const scanPane = (
@@ -54,6 +63,7 @@ function Index() {
   const calendarPane = (
     <div className="space-y-4">
       <h1 className="font-display text-3xl">My Calendar</h1>
+      <LiveFeedCard />
       <CalendarBoard events={events} onSelect={setSelected} />
     </div>
   );
