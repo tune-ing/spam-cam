@@ -43,6 +43,9 @@ function Index() {
   const persist = (next: CalEvent[]) => {
     setEvents(next);
     saveEvents(next);
+    syncFeedToCloud(next).catch((err) =>
+      console.error("Failed to sync live calendar feed:", err),
+    );
   };
 
   const scanPane = (
@@ -56,6 +59,7 @@ function Index() {
   const calendarPane = (
     <div className="space-y-4">
       <h1 className="font-display text-3xl">My Calendar</h1>
+      <LiveFeedCard />
       <CalendarBoard events={events} onSelect={setSelected} />
     </div>
   );
