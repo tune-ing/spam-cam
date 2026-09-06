@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { buildFeedIcs, getFeedEvents } from "@/lib/feed.server";
 
-export const Route = createFileRoute("/api/public/calendar/$token.ics")({
+export const Route = createFileRoute("/api/public/calendar/$token")({
   server: {
     handlers: {
       GET: async ({ params }) => {

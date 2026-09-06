@@ -11,7 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiParseFlyerRouteImport } from './routes/api/parse-flyer'
-import { Route as ApiPublicCalendarTokenDoticsRouteImport } from './routes/api/public/calendar/$token[.]ics'
+import { Route as ApiPublicCalendarTokenRouteImport } from './routes/api/public/calendar/$token'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,41 +23,40 @@ const ApiParseFlyerRoute = ApiParseFlyerRouteImport.update({
   path: '/api/parse-flyer',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicCalendarTokenDoticsRoute =
-  ApiPublicCalendarTokenDoticsRouteImport.update({
-    id: '/api/public/calendar/$token.ics',
-    path: '/api/public/calendar/$token.ics',
-    getParentRoute: () => rootRouteImport,
-  } as any)
+const ApiPublicCalendarTokenRoute = ApiPublicCalendarTokenRouteImport.update({
+  id: '/api/public/calendar/$token',
+  path: '/api/public/calendar/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/parse-flyer': typeof ApiParseFlyerRoute
-  '/api/public/calendar/$token.ics': typeof ApiPublicCalendarTokenDoticsRoute
+  '/api/public/calendar/$token': typeof ApiPublicCalendarTokenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/parse-flyer': typeof ApiParseFlyerRoute
-  '/api/public/calendar/$token.ics': typeof ApiPublicCalendarTokenDoticsRoute
+  '/api/public/calendar/$token': typeof ApiPublicCalendarTokenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/api/parse-flyer': typeof ApiParseFlyerRoute
-  '/api/public/calendar/$token.ics': typeof ApiPublicCalendarTokenDoticsRoute
+  '/api/public/calendar/$token': typeof ApiPublicCalendarTokenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/parse-flyer' | '/api/public/calendar/$token.ics'
+  fullPaths: '/' | '/api/parse-flyer' | '/api/public/calendar/$token'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/parse-flyer' | '/api/public/calendar/$token.ics'
-  id: '__root__' | '/' | '/api/parse-flyer' | '/api/public/calendar/$token.ics'
+  to: '/' | '/api/parse-flyer' | '/api/public/calendar/$token'
+  id: '__root__' | '/' | '/api/parse-flyer' | '/api/public/calendar/$token'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApiParseFlyerRoute: typeof ApiParseFlyerRoute
-  ApiPublicCalendarTokenDoticsRoute: typeof ApiPublicCalendarTokenDoticsRoute
+  ApiPublicCalendarTokenRoute: typeof ApiPublicCalendarTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -76,11 +75,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiParseFlyerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/calendar/$token.ics': {
-      id: '/api/public/calendar/$token.ics'
-      path: '/api/public/calendar/$token.ics'
-      fullPath: '/api/public/calendar/$token.ics'
-      preLoaderRoute: typeof ApiPublicCalendarTokenDoticsRouteImport
+    '/api/public/calendar/$token': {
+      id: '/api/public/calendar/$token'
+      path: '/api/public/calendar/$token'
+      fullPath: '/api/public/calendar/$token'
+      preLoaderRoute: typeof ApiPublicCalendarTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -89,7 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApiParseFlyerRoute: ApiParseFlyerRoute,
-  ApiPublicCalendarTokenDoticsRoute: ApiPublicCalendarTokenDoticsRoute,
+  ApiPublicCalendarTokenRoute: ApiPublicCalendarTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

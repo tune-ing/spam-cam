@@ -15,7 +15,7 @@ export function getFeedToken(): string {
 
 export function getFeedUrl(): string {
   if (typeof window === "undefined") return "";
-  return `${window.location.origin}/api/public/calendar/${getFeedToken()}.ics`;
+  return `${window.location.origin}/api/public/calendar/${getFeedToken()}`;
 }
 
 /** Push the full event list to the cloud feed so subscribers stay up to date. */
