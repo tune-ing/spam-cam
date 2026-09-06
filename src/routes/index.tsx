@@ -37,7 +37,11 @@ function Index() {
   const [selected, setSelected] = useState<CalEvent | null>(null);
 
   useEffect(() => {
-    setEvents(loadEvents());
+    const loaded = loadEvents();
+    setEvents(loaded);
+    syncFeedToCloud(loaded).catch((err) =>
+      console.error("Failed to sync live calendar feed:", err),
+    );
   }, []);
 
   const persist = (next: CalEvent[]) => {
