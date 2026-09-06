@@ -1,0 +1,1 @@
+CREATE POLICY "No direct client access" ON public.feed_events FOR ALL USING (false) WITH CHECK (false);
