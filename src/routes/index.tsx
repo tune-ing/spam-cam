@@ -4,8 +4,10 @@ import { CalendarDays, ScanLine } from "lucide-react";
 import { ScanView } from "@/components/ScanView";
 import { CalendarBoard } from "@/components/CalendarBoard";
 import { EventDialog } from "@/components/EventDialog";
+import { LiveFeedCard } from "@/components/LiveFeedCard";
 import { cn } from "@/lib/utils";
 import { loadEvents, saveEvents, type CalEvent } from "@/lib/events";
+import { syncFeedToCloud } from "@/lib/feed";
 
 export const Route = createFileRoute("/")({
   head: () => ({
