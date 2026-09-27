@@ -1,4 +1,4 @@
-- [ ] Rename app and calendar to SpamCam and apply supplied daytime palette.
-- [ ] Make the mobile screen full-width, use a camera tab icon, and remove the broken live feed link.
-- [ ] Add direct device-calendar and whole-calendar exports with SpamCam attribution in event descriptions.
-- [ ] Verify the mobile screen and calendar files.
+- [x] Rename app and calendar to SpamCam and apply supplied daytime palette.
+- [x] Make the mobile screen full-width, use a camera tab icon, and remove the broken live feed link.
+- [x] Add device-calendar sharing and whole-calendar exports with SpamCam attribution in event descriptions.
+- [x] Verify the mobile screen and calendar files.
