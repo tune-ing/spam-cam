@@ -41,7 +41,7 @@ export function googleCalendarUrl(e: CalEvent) {
 
 export function eventDescription(description: string) {
   const text = description.trim();
-  return /from your SpamCam/i.test(text) ? text : [text, "from your SpamCam"].filter(Boolean).join("\n\n");
+  return /\[From your SpamCam\]/i.test(text) ? text : [text.replace(/\s*from your SpamCam\s*$/i, ""), "[From your SpamCam]"].filter(Boolean).join("\n\n");
 }
 
 const escIcs = (s: string) => s.replace(/([,;\\])/g, "\\$1").replace(/\r?\n/g, "\\n");

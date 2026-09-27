@@ -100,7 +100,7 @@ export function EventDialog({
                   </Button>
                   <Button
                     variant="ghost"
-                    className="h-12 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                     className="h-12 text-destructive"
                     onClick={() => {
                       onDelete(event.id);
                       onClose();

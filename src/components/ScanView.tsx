@@ -190,8 +190,8 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
             readFile(e.dataTransfer.files?.[0]);
           }}
           className={cn(
-            "grid gap-3 rounded-md border-2 border-dashed border-primary/40 bg-card p-5 transition-colors",
-            dragging && "border-primary bg-primary/5",
+            "grid gap-3 transition-colors",
+            dragging && "bg-primary/5",
           )}
         >
           <Button className="h-14 text-base" onClick={() => cameraRef.current?.click()}>
@@ -204,7 +204,6 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
           >
             <ImageUp className="size-5" /> Choose from Photo Library
           </Button>
-          <p className="text-center text-xs text-muted-foreground">or drop an image here</p>
         </div>
       )}
 

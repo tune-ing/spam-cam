@@ -93,22 +93,27 @@ export function CalendarBoard({
             return (
               <button
                 key={d.toISOString()}
-                onClick={() => setSelected(new Date(d))}
+                 onClick={() => {
+                   setSelected(new Date(d));
+                   if (!inMonth) setCursor(new Date(d.getFullYear(), d.getMonth(), 1));
+                 }}
+                 aria-label={d.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
+                 aria-pressed={isSel}
                 className={cn(
-                  "relative flex h-12 flex-col items-center justify-center rounded-xl text-sm transition-colors",
+                   "relative flex h-12 flex-col items-center justify-center rounded-md text-sm transition-colors",
                   inMonth ? "text-foreground" : "text-muted-foreground/40",
-                  isSel ? "bg-primary text-primary-foreground" : "hover:bg-muted",
-                  !isSel && isToday && "ring-1 ring-primary/50",
+                   isSel ? "bg-calendar-selected text-calendar-selected-foreground" : "hover:bg-button-hover hover:text-button-hover-foreground",
+                   isToday && "ring-2 ring-calendar-selected ring-inset",
                 )}
               >
-                <span className={cn(isToday && !isSel && "font-semibold text-primary")}>
+                 <span className={cn(isToday && !isSel && "font-semibold")}>
                   {d.getDate()}
                 </span>
                 {count > 0 && (
                   <span
                     className={cn(
                       "mt-0.5 h-1.5 w-1.5 rounded-full",
-                      isSel ? "bg-primary-foreground" : "bg-accent",
+                       isSel ? "bg-calendar-selected-foreground" : "bg-accent",
                     )}
                   />
                 )}
