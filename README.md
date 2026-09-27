@@ -1,3 +1,6 @@
+# Visit the site here: 
+https://spam-cam.lovable.app/
+
 # Scan & Calendar
 
 Create a clean, modern, mobile-first single-page application using React, Tailwind CSS, Lucide icons, and Shadcn UI that scans paper flyers using multimodal AI vision, displays the events on an interactive in-app calendar, and syncs them directly to Google Calendar.
