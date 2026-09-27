@@ -87,6 +87,19 @@ export function downloadIcs(e: CalEvent) {
   downloadCalendar(buildIcs(e), `${e.title.replace(/[^\w-]+/g, "-").toLowerCase() || "event"}.ics`);
 }
 
+export async function addToDeviceCalendar(e: CalEvent) {
+  const file = new File([buildIcs(e)], `${e.title.replace(/[^\w-]+/g, "-").toLowerCase() || "event"}.ics`, { type: "text/calendar" });
+  if (navigator.share && navigator.canShare?.({ files: [file] })) {
+    try {
+      await navigator.share({ files: [file], title: e.title });
+      return;
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+    }
+  }
+  downloadIcs(e);
+}
+
 export function downloadAllIcs(events: CalEvent[]) {
   downloadCalendar(buildCalendarIcs(events), "SpamCam Events.ics");
 }

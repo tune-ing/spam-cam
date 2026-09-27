@@ -18,7 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
-import { downloadIcs, googleCalendarUrl, toLocalInput, type CalEvent } from "@/lib/events";
+import { addToDeviceCalendar, googleCalendarUrl, toLocalInput, type CalEvent } from "@/lib/events";
 
 type Draft = Omit<CalEvent, "id">;
 
@@ -254,7 +254,7 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
                 <CalendarPlus className="size-5" /> Add to Google Calendar
               </a>
             </Button>
-            <Button variant="outline" className="h-12" onClick={() => downloadIcs(current)}>
+            <Button variant="outline" className="h-12" onClick={() => void addToDeviceCalendar(current)}>
               <Download className="size-4" /> Add to My Calendar
             </Button>
           </div>

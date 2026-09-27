@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { downloadIcs, googleCalendarUrl, type CalEvent } from "@/lib/events";
+import { addToDeviceCalendar, googleCalendarUrl, type CalEvent } from "@/lib/events";
 
 function fmt(local: string) {
   const d = new Date(local);
@@ -95,8 +95,8 @@ export function EventDialog({
                   </a>
                 </Button>
                 <div className="grid grid-cols-2 gap-2">
-                  <Button variant="secondary" className="h-12" onClick={() => downloadIcs(event)}>
-                     <Download className="size-4" /> My Calendar
+                  <Button variant="secondary" className="h-12" onClick={() => void addToDeviceCalendar(event)}>
+                    <Download className="size-4" /> Add to Calendar
                   </Button>
                   <Button
                     variant="ghost"
