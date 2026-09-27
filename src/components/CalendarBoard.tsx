@@ -100,9 +100,9 @@ export function CalendarBoard({
                  aria-label={d.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
                  aria-pressed={isSel}
                 className={cn(
-                   "relative flex h-12 flex-col items-center justify-center rounded-md text-sm transition-colors hover:bg-button-hover hover:text-button-hover-foreground",
+                   "relative flex h-12 flex-col items-center justify-center rounded-md text-sm transition-colors",
                   inMonth ? "text-foreground" : "text-muted-foreground/40",
-                   isSel && "bg-calendar-selected text-calendar-selected-foreground",
+                   isSel ? "bg-calendar-selected text-calendar-selected-foreground" : "hover:bg-button-hover hover:text-button-hover-foreground",
                    isToday && "ring-2 ring-calendar-selected ring-inset",
                 )}
               >
