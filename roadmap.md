@@ -2,3 +2,6 @@
 - [x] Make the mobile screen full-width, use a camera tab icon, and remove the broken live feed link.
 - [x] Add device-calendar sharing and whole-calendar exports with SpamCam attribution in event descriptions.
 - [x] Verify the mobile screen and calendar files.
+- [x] Add a SpamCam first screen with Scan Flyer and Calendar choices.
+- [x] Update button hover, calendar date colors, serif typewriter font, heading, and calendar invite attribution.
+- [x] Remove the dotted box around scan buttons and verify navigation.
