@@ -190,7 +190,7 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
             readFile(e.dataTransfer.files?.[0]);
           }}
           className={cn(
-            "grid gap-3 rounded-2xl border-2 border-dashed border-border p-5 transition-colors",
+            "grid gap-3 rounded-md border-2 border-dashed border-primary/40 bg-card p-5 transition-colors",
             dragging && "border-primary bg-primary/5",
           )}
         >
