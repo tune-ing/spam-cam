@@ -91,12 +91,12 @@ export function EventDialog({
               <div className="mt-2 grid gap-2">
                 <Button asChild className="h-12 text-base">
                   <a href={googleCalendarUrl(event)} target="_blank" rel="noopener noreferrer">
-                    <CalendarPlus className="size-5" /> Export to Google Calendar
+                     <CalendarPlus className="size-5" /> Add to Google Calendar
                   </a>
                 </Button>
                 <div className="grid grid-cols-2 gap-2">
                   <Button variant="secondary" className="h-12" onClick={() => downloadIcs(event)}>
-                    <Download className="size-4" /> .ics
+                     <Download className="size-4" /> My Calendar
                   </Button>
                   <Button
                     variant="ghost"

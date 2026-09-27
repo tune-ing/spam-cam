@@ -72,10 +72,10 @@ export function buildFeedIcs(rows: FeedEventRow[]) {
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//FlyerScan//Feed//EN",
+    "PRODID:-//SpamCam//Feed//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
-    "X-WR-CALNAME:FlyerScan Events",
+    "X-WR-CALNAME:SpamCam Events",
     // Suggest subscribers refresh hourly.
     "X-PUBLISHED-TTL:PT1H",
     "REFRESH-INTERVAL;VALUE=DURATION:PT1H",
@@ -86,13 +86,13 @@ export function buildFeedIcs(rows: FeedEventRow[]) {
     if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) continue;
     lines.push(
       "BEGIN:VEVENT",
-      `UID:${r.event_id}@flyerscan`,
+      `UID:${r.event_id}@spamcam`,
       `DTSTAMP:${icsStamp(new Date())}`,
       `DTSTART:${icsStamp(start)}`,
       `DTEND:${icsStamp(end)}`,
       `SUMMARY:${esc(r.title)}`,
       `LOCATION:${esc(r.location ?? "")}`,
-      `DESCRIPTION:${esc(r.description ?? "")}`,
+      `DESCRIPTION:${esc(/from your SpamCam/i.test(r.description ?? "") ? r.description : [r.description, "from your SpamCam"].filter(Boolean).join("\n\n"))}`,
       "END:VEVENT",
     );
   }

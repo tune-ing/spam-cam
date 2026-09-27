@@ -140,13 +140,13 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
 
   return (
     <div className="space-y-5">
-      <header className="space-y-1">
-        <h1 className="font-display text-3xl leading-tight">
-          Turn paper flyers into
-          <span className="text-primary"> calendar events</span>
+      <header className="space-y-2">
+        <p className="text-xs font-bold uppercase text-primary">Spotted something good?</p>
+        <h1 className="font-display text-4xl font-bold leading-tight">
+          See a flyer.<br /><span className="text-primary">Make a plan.</span>
         </h1>
         <p className="text-sm text-muted-foreground">
-          Snap the poster. AI reads the date, place and details.
+          Snap a flyer. We’ll grab the details so you don’t miss out.
         </p>
       </header>
 
@@ -254,8 +254,8 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
                 <CalendarPlus className="size-5" /> Add to Google Calendar
               </a>
             </Button>
-            <Button variant="ghost" className="h-12" onClick={() => downloadIcs(current)}>
-              <Download className="size-4" /> Download .ics
+            <Button variant="outline" className="h-12" onClick={() => downloadIcs(current)}>
+              <Download className="size-4" /> Add to My Calendar
             </Button>
           </div>
         </section>
