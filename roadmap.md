@@ -5,3 +5,4 @@
 - [x] Add a SpamCam first screen with Scan Flyer and Calendar choices.
 - [x] Update button hover, calendar date colors, serif typewriter font, heading, and calendar invite attribution.
 - [x] Remove the dotted box around scan buttons and verify navigation.
+- [x] Keep action buttons green with lighter green hover, bottom navigation purple with lighter purple hover, and remove seeded sample events without deleting saved events.

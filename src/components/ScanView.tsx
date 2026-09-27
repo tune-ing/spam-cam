@@ -198,7 +198,6 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
             <Camera className="size-5" /> Scan Flyer with Camera
           </Button>
           <Button
-            variant="secondary"
             className="h-12 text-base"
             onClick={() => libraryRef.current?.click()}
           >
@@ -248,12 +247,12 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
             >
               <CalendarCheck className="size-5" /> Save to In-App Calendar
             </Button>
-            <Button asChild variant="secondary" className="h-12 text-base">
+            <Button asChild className="h-12 text-base">
               <a href={googleCalendarUrl(current)} target="_blank" rel="noopener noreferrer">
                 <CalendarPlus className="size-5" /> Add to Google Calendar
               </a>
             </Button>
-            <Button variant="outline" className="h-12" onClick={() => void addToDeviceCalendar(current)}>
+            <Button className="h-12" onClick={() => void addToDeviceCalendar(current)}>
               <Download className="size-4" /> Add to My Calendar
             </Button>
           </div>

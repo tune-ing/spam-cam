@@ -71,7 +71,7 @@ function Index() {
     <div className="flex h-[100dvh] w-full flex-col bg-background">
       <header className="z-10 shrink-0 border-b border-border bg-card px-5 py-3 md:px-8">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
-           <Button variant="ghost" className="flex h-12 items-center gap-2.5 px-1 hover:bg-button-hover hover:text-button-hover-foreground" onClick={() => setTab("home") } aria-label="SpamCam">
+           <Button variant="ghost" className="flex h-12 items-center gap-2.5 px-1" onClick={() => setTab("home") } aria-label="SpamCam">
             <span className="flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground"><Camera className="size-5" /></span>
             <span className="font-display text-2xl font-bold leading-none text-foreground">SpamCam<span className="text-primary">.</span></span>
            </Button>
@@ -83,7 +83,7 @@ function Index() {
              <h1 className="font-display text-5xl font-bold text-foreground sm:text-7xl">SpamCam<span className="text-primary">.</span></h1>
              <div className="grid w-full max-w-md gap-3">
                <Button className="h-16 text-lg" onClick={() => setTab("scan")}><Camera className="size-5" />Scan Flyer</Button>
-               <Button variant="secondary" className="h-16 text-lg" onClick={() => setTab("calendar")}><CalendarDays className="size-5" />Calendar</Button>
+                <Button className="h-16 text-lg" onClick={() => setTab("calendar")}><CalendarDays className="size-5" />Calendar</Button>
              </div>
            </div>
          )}
@@ -103,10 +103,10 @@ function Index() {
               key={id}
               onClick={() => setTab(id)}
               className={cn(
-                  "flex min-h-12 items-center justify-center gap-2 rounded-md px-3 text-sm font-medium transition-colors hover:bg-button-hover hover:text-button-hover-foreground",
+                  "flex min-h-12 items-center justify-center gap-2 rounded-md px-3 text-sm font-medium transition-colors",
                 tab === id
-                    ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground",
+                     ? "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
+                   : "bg-primary/80 text-primary-foreground hover:bg-button-hover hover:text-button-hover-foreground",
               )}
             >
               <Icon className="size-5" />

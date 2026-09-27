@@ -9,13 +9,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow hover:bg-button-hover hover:text-button-hover-foreground",
-        destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-button-hover hover:text-button-hover-foreground",
+        default: "bg-action text-action-foreground shadow hover:bg-action-hover hover:text-action-hover-foreground",
+        destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/80",
         outline:
-          "border border-input bg-background shadow-sm hover:bg-button-hover hover:text-button-hover-foreground",
-        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-button-hover hover:text-button-hover-foreground",
-        ghost: "hover:bg-button-hover hover:text-button-hover-foreground",
-        link: "text-primary underline-offset-4 hover:bg-button-hover hover:text-button-hover-foreground hover:underline",
+          "border border-action bg-action text-action-foreground shadow-sm hover:bg-action-hover hover:text-action-hover-foreground",
+        secondary: "bg-action text-action-foreground shadow-sm hover:bg-action-hover hover:text-action-hover-foreground",
+        ghost: "hover:bg-action-hover hover:text-action-hover-foreground",
+        link: "text-action-foreground underline-offset-4 hover:bg-action-hover hover:text-action-hover-foreground hover:underline",
       },
       size: {
         default: "h-9 px-4 py-2",
