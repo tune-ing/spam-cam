@@ -34,39 +34,74 @@ export function googleCalendarUrl(e: CalEvent) {
     `text=${encodeURIComponent(e.title)}`,
     `dates=${toUtcStamp(e.startDate)}/${toUtcStamp(e.endDate)}`,
     `location=${encodeURIComponent(e.location)}`,
-    `details=${encodeURIComponent(e.description)}`,
+    `details=${encodeURIComponent(eventDescription(e.description))}`,
   ].join("&");
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&${params}`;
 }
 
-export function buildIcs(e: CalEvent) {
-  const esc = (s: string) => s.replace(/([,;\\])/g, "\\$1").replace(/\n/g, "\\n");
+export function eventDescription(description: string) {
+  const text = description.trim();
+  return /from your SpamCam/i.test(text) ? text : [text, "from your SpamCam"].filter(Boolean).join("\n\n");
+}
+
+const escIcs = (s: string) => s.replace(/([,;\\])/g, "\\$1").replace(/\r?\n/g, "\\n");
+
+function eventIcsLines(e: CalEvent) {
   return [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//FlyerScan//EN",
-    "CALSCALE:GREGORIAN",
     "BEGIN:VEVENT",
-    `UID:${e.id}@flyerscan`,
+    `UID:${e.id}@spamcam`,
     `DTSTAMP:${toUtcStamp(toLocalInput(new Date()))}`,
     `DTSTART:${toUtcStamp(e.startDate)}`,
     `DTEND:${toUtcStamp(e.endDate)}`,
-    `SUMMARY:${esc(e.title)}`,
-    `LOCATION:${esc(e.location)}`,
-    `DESCRIPTION:${esc(e.description)}`,
+    `SUMMARY:${escIcs(e.title)}`,
+    `LOCATION:${escIcs(e.location)}`,
+    `DESCRIPTION:${escIcs(eventDescription(e.description))}`,
     "END:VEVENT",
+  ];
+}
+
+export function buildCalendarIcs(events: CalEvent[]) {
+  return [
+    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//SpamCam//EN", "CALSCALE:GREGORIAN",
+    "X-WR-CALNAME:SpamCam Events",
+    ...events.flatMap(eventIcsLines),
     "END:VCALENDAR",
   ].join("\r\n");
 }
 
-export function downloadIcs(e: CalEvent) {
-  const blob = new Blob([buildIcs(e)], { type: "text/calendar;charset=utf-8" });
+export function buildIcs(e: CalEvent) {
+  return buildCalendarIcs([e]);
+}
+
+function downloadCalendar(content: string, filename: string) {
+  const blob = new Blob([content], { type: "text/calendar;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `${e.title.replace(/[^\w-]+/g, "-").toLowerCase() || "event"}.ics`;
+  a.download = filename;
   a.click();
-  URL.revokeObjectURL(url);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+export function downloadIcs(e: CalEvent) {
+  downloadCalendar(buildIcs(e), `${e.title.replace(/[^\w-]+/g, "-").toLowerCase() || "event"}.ics`);
+}
+
+export async function addToDeviceCalendar(e: CalEvent) {
+  const file = new File([buildIcs(e)], `${e.title.replace(/[^\w-]+/g, "-").toLowerCase() || "event"}.ics`, { type: "text/calendar" });
+  if (navigator.share && navigator.canShare?.({ files: [file] })) {
+    try {
+      await navigator.share({ files: [file], title: e.title });
+      return;
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+    }
+  }
+  downloadIcs(e);
+}
+
+export function downloadAllIcs(events: CalEvent[]) {
+  downloadCalendar(buildCalendarIcs(events), "SpamCam Events.ics");
 }
 
 function sampleEvents(): CalEvent[] {

@@ -18,7 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
-import { downloadIcs, googleCalendarUrl, toLocalInput, type CalEvent } from "@/lib/events";
+import { addToDeviceCalendar, googleCalendarUrl, toLocalInput, type CalEvent } from "@/lib/events";
 
 type Draft = Omit<CalEvent, "id">;
 
@@ -140,13 +140,13 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
 
   return (
     <div className="space-y-5">
-      <header className="space-y-1">
-        <h1 className="font-display text-3xl leading-tight">
-          Turn paper flyers into
-          <span className="text-primary"> calendar events</span>
+      <header className="space-y-2">
+        <p className="text-xs font-bold uppercase text-primary">Spotted something good?</p>
+        <h1 className="font-display text-4xl font-bold leading-tight">
+          See a flyer.<br /><span className="text-primary">Make a plan.</span>
         </h1>
         <p className="text-sm text-muted-foreground">
-          Snap the poster. AI reads the date, place and details.
+          Snap a flyer. We’ll grab the details so you don’t miss out.
         </p>
       </header>
 
@@ -190,7 +190,7 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
             readFile(e.dataTransfer.files?.[0]);
           }}
           className={cn(
-            "grid gap-3 rounded-2xl border-2 border-dashed border-border p-5 transition-colors",
+            "grid gap-3 rounded-md border-2 border-dashed border-primary/40 bg-card p-5 transition-colors",
             dragging && "border-primary bg-primary/5",
           )}
         >
@@ -254,8 +254,8 @@ export function ScanView({ onSave }: { onSave: (e: CalEvent) => void }) {
                 <CalendarPlus className="size-5" /> Add to Google Calendar
               </a>
             </Button>
-            <Button variant="ghost" className="h-12" onClick={() => downloadIcs(current)}>
-              <Download className="size-4" /> Download .ics
+            <Button variant="outline" className="h-12" onClick={() => void addToDeviceCalendar(current)}>
+              <Download className="size-4" /> Add to My Calendar
             </Button>
           </div>
         </section>

@@ -49,7 +49,7 @@ export function CalendarBoard({
 
   return (
     <div className="space-y-4">
-      <div className="surface-paper rounded-2xl border border-border p-3">
+      <div className="surface-paper rounded-md border border-border p-3">
         <div className="mb-2 flex items-center justify-between">
           <h2 className="font-display text-lg">
             {cursor.toLocaleString(undefined, { month: "long", year: "numeric" })}
