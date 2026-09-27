@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { CalendarDays, Camera, Download, Sparkles } from "lucide-react";
+import { CalendarDays, Camera, Download } from "lucide-react";
 import { ScanView } from "@/components/ScanView";
 import { CalendarBoard } from "@/components/CalendarBoard";
 import { EventDialog } from "@/components/EventDialog";
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [tab, setTab] = useState<"scan" | "calendar">("scan");
+  const [tab, setTab] = useState<"home" | "scan" | "calendar">("home");
   const [events, setEvents] = useState<CalEvent[]>([]);
   const [selected, setSelected] = useState<CalEvent | null>(null);
 
@@ -57,8 +57,7 @@ function Index() {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-xs font-bold uppercase text-primary">Your plans</p>
-          <h2 className="font-display text-3xl font-bold">SpamCam Events</h2>
+           <h1 className="font-display text-3xl font-bold">Your SpamCam Events</h1>
         </div>
         <Button variant="outline" className="h-12" onClick={() => downloadAllIcs(events)} disabled={!events.length}>
           <Download /> Export calendar
@@ -72,20 +71,27 @@ function Index() {
     <div className="flex h-[100dvh] w-full flex-col bg-background">
       <header className="z-10 shrink-0 border-b border-border bg-card px-5 py-3 md:px-8">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
-          <div className="flex items-center gap-2.5">
+           <Button variant="ghost" className="flex h-12 items-center gap-2.5 px-1 hover:bg-button-hover hover:text-button-hover-foreground" onClick={() => setTab("home") } aria-label="SpamCam">
             <span className="flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground"><Camera className="size-5" /></span>
             <span className="font-display text-2xl font-bold leading-none text-foreground">SpamCam<span className="text-primary">.</span></span>
-          </div>
-          <Sparkles className="size-5 text-accent" aria-hidden="true" />
+           </Button>
         </div>
       </header>
-      {/* Mobile: tabbed single column. Desktop (md+): form left, calendar right. */}
-      <main className="mx-auto w-full max-w-6xl flex-1 overflow-y-auto px-4 pb-28 pt-6 md:grid md:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] md:items-start md:gap-8 md:px-8 md:pb-6">
-        <div className={cn(tab !== "scan" && "hidden", "md:block")}>{scanPane}</div>
-        <div className={cn(tab !== "calendar" && "hidden", "md:block")}>{calendarPane}</div>
+       <main className="mx-auto w-full max-w-6xl flex-1 overflow-y-auto px-4 pb-28 pt-6 md:px-8 md:pb-8">
+         {tab === "home" && (
+           <div className="flex min-h-full flex-col items-center justify-center gap-10 pb-10 text-center">
+             <h1 className="font-display text-5xl font-bold text-foreground sm:text-7xl">SpamCam<span className="text-primary">.</span></h1>
+             <div className="grid w-full max-w-md gap-3">
+               <Button className="h-16 text-lg" onClick={() => setTab("scan")}><Camera className="size-5" />Scan Flyer</Button>
+               <Button variant="secondary" className="h-16 text-lg" onClick={() => setTab("calendar")}><CalendarDays className="size-5" />Calendar</Button>
+             </div>
+           </div>
+         )}
+         <div className={cn("mx-auto w-full max-w-2xl", tab !== "scan" && "hidden")}>{scanPane}</div>
+         <div className={cn("mx-auto w-full max-w-2xl", tab !== "calendar" && "hidden")}>{calendarPane}</div>
       </main>
 
-      <nav className="fixed bottom-0 left-0 z-50 w-full border-t border-border bg-card/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur md:hidden">
+       {tab !== "home" && <nav className="fixed bottom-0 left-0 z-50 w-full border-t border-border bg-card/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur">
         <div className="grid grid-cols-2 gap-2">
           {(
             [
@@ -97,9 +103,9 @@ function Index() {
               key={id}
               onClick={() => setTab(id)}
               className={cn(
-                 "flex min-h-12 items-center justify-center gap-2 rounded-md px-3 text-sm font-medium transition-colors",
+                  "flex min-h-12 items-center justify-center gap-2 rounded-md px-3 text-sm font-medium transition-colors hover:bg-button-hover hover:text-button-hover-foreground",
                 tab === id
-                   ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                    ? "bg-primary text-primary-foreground"
                   : "bg-muted text-muted-foreground",
               )}
             >
@@ -108,7 +114,7 @@ function Index() {
             </Button>
           ))}
         </div>
-      </nav>
+       </nav>}
 
       <EventDialog
         event={selected}
