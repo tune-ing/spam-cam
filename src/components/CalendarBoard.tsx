@@ -102,7 +102,7 @@ export function CalendarBoard({
                 className={cn(
                    "relative flex h-12 flex-col items-center justify-center rounded-md text-sm transition-colors",
                   inMonth ? "text-foreground" : "text-muted-foreground/40",
-                   isSel ? "bg-calendar-selected text-calendar-selected-foreground" : "hover:bg-button-hover hover:text-button-hover-foreground",
+                    isSel ? "bg-calendar-selected text-calendar-selected-foreground" : "hover:bg-action-hover hover:text-action-hover-foreground",
                    isToday && "ring-2 ring-calendar-selected ring-inset",
                 )}
               >

@@ -12,3 +12,4 @@
 - Keep the original localStorage event key when changing the app name, so existing users retain their saved events.
 - Export both individual and whole-calendar ICS files from the shared event formatter, so titles and attribution stay consistent.
 - Keep the landing, scan, and calendar views in the existing single-page route so navigation does not duplicate app state or reset unsaved scans.
+- Keep action-green and bottom-navigation-purple hover roles in semantic tokens so each button stays in its color family across states.

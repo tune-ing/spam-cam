@@ -63,6 +63,10 @@
   --color-warning-foreground: var(--warning-foreground);
   --color-button-hover: var(--button-hover);
   --color-button-hover-foreground: var(--button-hover-foreground);
+  --color-action: var(--action);
+  --color-action-foreground: var(--action-foreground);
+  --color-action-hover: var(--action-hover);
+  --color-action-hover-foreground: var(--action-hover-foreground);
   --color-calendar-selected: var(--calendar-selected);
   --color-calendar-selected-foreground: var(--calendar-selected-foreground);
   --font-display: "Courier Prime", "Courier New", monospace;
@@ -81,6 +85,10 @@
   --primary-foreground: oklch(0.995 0.003 220);
   --button-hover: oklch(0.84 0.049 321.9);
   --button-hover-foreground: oklch(0.16 0 0);
+  --action: oklch(0.7636 0.0699 127.2);
+  --action-foreground: oklch(0.22 0.026 131);
+  --action-hover: oklch(0.88 0.048 127.2);
+  --action-hover-foreground: oklch(0.16 0.02 131);
   --calendar-selected: oklch(0.72 0.105 140);
   --calendar-selected-foreground: oklch(0.18 0.035 140);
   --secondary: oklch(0.7636 0.0699 127.2);
@@ -125,6 +133,10 @@
   --primary-foreground: oklch(0.208 0.042 265.755);
   --button-hover: oklch(0.84 0.049 321.9);
   --button-hover-foreground: oklch(0.16 0 0);
+  --action: oklch(0.7636 0.0699 127.2);
+  --action-foreground: oklch(0.22 0.026 131);
+  --action-hover: oklch(0.88 0.048 127.2);
+  --action-hover-foreground: oklch(0.16 0.02 131);
   --calendar-selected: oklch(0.72 0.105 140);
   --calendar-selected-foreground: oklch(0.18 0.035 140);
   --secondary: oklch(0.279 0.041 260.031);

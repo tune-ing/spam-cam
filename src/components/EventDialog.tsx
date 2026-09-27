@@ -95,7 +95,7 @@ export function EventDialog({
                   </a>
                 </Button>
                 <div className="grid grid-cols-2 gap-2">
-                  <Button variant="secondary" className="h-12" onClick={() => void addToDeviceCalendar(event)}>
+                  <Button className="h-12" onClick={() => void addToDeviceCalendar(event)}>
                     <Download className="size-4" /> Add to Calendar
                   </Button>
                   <Button

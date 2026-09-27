@@ -1,7 +1,3 @@
-import flyerMarket from "@/assets/flyer-market.jpg";
-import flyerVinyl from "@/assets/flyer-vinyl.jpg";
-import flyerGarden from "@/assets/flyer-garden.jpg";
-
 export type CalEvent = {
   id: string;
   title: string;
@@ -104,55 +100,18 @@ export function downloadAllIcs(events: CalEvent[]) {
   downloadCalendar(buildCalendarIcs(events), "SpamCam Events.ics");
 }
 
-function sampleEvents(): CalEvent[] {
-  const now = new Date();
-  const at = (dayOffset: number, hour: number, minutes = 0) => {
-    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + dayOffset, hour, minutes);
-    return toLocalInput(d);
-  };
-  return [
-    {
-      id: "sample-1",
-      title: "Riverside Night Market",
-      startDate: at(2, 18),
-      endDate: at(2, 22),
-      location: "Dock 4, Riverside Quay",
-      description: "Street food stalls, live brass band, free entry before 7pm.",
-      image: flyerMarket,
-    },
-    {
-      id: "sample-2",
-      title: "Basement Vinyl Fair",
-      startDate: at(6, 11),
-      endDate: at(6, 16),
-      location: "Old Print Works, 22 Cable St",
-      description: "40+ sellers. $5 at the door, cash only.",
-      image: flyerVinyl,
-    },
-    {
-      id: "sample-3",
-      title: "Community Garden Workday",
-      startDate: at(11, 9, 30),
-      endDate: at(11, 12, 30),
-      location: "Hillcrest Community Garden",
-      description: "Bring gloves. Coffee and pastries provided.",
-      image: flyerGarden,
-    },
-  ];
-}
-
 export function loadEvents(): CalEvent[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      const seeded = sampleEvents();
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(seeded));
-      return seeded;
-    }
-    return JSON.parse(raw) as CalEvent[];
+    if (!raw) return [];
+    const stored = JSON.parse(raw) as CalEvent[];
+    if (!Array.isArray(stored)) return [];
+    const events = stored.filter((event) => !["sample-1", "sample-2", "sample-3"].includes(event.id));
+    if (events.length !== stored.length) window.localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+    return events;
   } catch {
-    return sampleEvents();
+    return [];
   }
 }
 
