@@ -2,7 +2,7 @@
 https://spam-cam.lovable.app/
 
 # Scan & Calendar
-
+Generated prompt with the assistance of Google's Gemini. 
 Create a clean, modern, mobile-first single-page application using React, Tailwind CSS, Lucide icons, and Shadcn UI that scans paper flyers using multimodal AI vision, displays the events on an interactive in-app calendar, and syncs them directly to Google Calendar.
 
 1. Viewport & Mobile-First Layout
